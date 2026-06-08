@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,9 +9,15 @@ export default function Dashboard() {
   const token = localStorage.getItem("token");
 
   const fetchTasks = async () => {
-    const res = await axios.get("${process.env.REACT_APP_API_URL}/api/tasks", {
-      headers: { Authorization: token }
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/tasks`,
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    );
+
     setTasks(res.data);
   };
 
@@ -22,19 +27,34 @@ export default function Dashboard() {
 
   const addTask = async () => {
     await axios.post(
-      "${process.env.REACT_APP_API_URL}/api/tasks",
-      { title, description },
-      { headers: { Authorization: token } }
+      `${process.env.REACT_APP_API_URL}/api/tasks`,
+      {
+        title,
+        description
+      },
+      {
+        headers: {
+          Authorization: token
+        }
+      }
     );
+
     setTitle("");
     setDescription("");
+
     fetchTasks();
   };
 
   const deleteTask = async (id) => {
-    await axios.delete(`${process.env.REACT_APP_API_URL}  /api/tasks/${id}`, {
-      headers: { Authorization: token }
-    });
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/tasks/${id}`,
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    );
+
     fetchTasks();
   };
 
@@ -63,7 +83,9 @@ export default function Dashboard() {
           <div key={task._id} className="task">
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <button onClick={() => deleteTask(task._id)}>Delete</button>
+            <button onClick={() => deleteTask(task._id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
